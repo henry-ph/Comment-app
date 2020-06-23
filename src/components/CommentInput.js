@@ -1,12 +1,21 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 class CommentInput extends Component {
+    static propTypes = {
+        userName: PropTypes.any,
+        onSubmit: PropTypes.func,
+        onUserNameInputBlur: PropTypes.func
+    }
 
+    static defaultProps = {
+        userName: ''
+    }
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            userName: '',
+            userName: props.userName,
             content: ''
         }
     }
@@ -49,12 +58,10 @@ class CommentInput extends Component {
         this.setState({ content: ''})
     }
 
-    _saveUserName (userName) {
-        localStorage.setItem('userName', userName)
-    }
-
     handleUserNameBlur (event) {
-        this._saveUserName(event.target.value)
+        if (this.props.onUserNameInputBlur) {
+            this.props.onUserNameInputBlur(event.target.value)
+        }
     }
 
     render() {
